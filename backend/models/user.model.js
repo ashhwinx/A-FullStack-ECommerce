@@ -29,7 +29,11 @@ const userSchema = new mongoose.Schema({
     user:{
         type:String,
         default:"user",
-        enum:["user","admin","store"]
+        enum:["user","admin","seller"]
+    },
+    address:{
+        type:String,
+        default:""
     }
 })
 

@@ -1,0 +1,64 @@
+const sellerModel = require("../models/seller.model")
+const sellerService = require("../services/seller.service")
+
+
+module.exports.registerSeller = async (req,res)=>{
+    try {
+      const {fullname,storeName,storeDescription,email,password} =req.body
+      
+      
+      const userExisted  = await sellerModel.findOne({email})
+
+      if(userExisted){
+        return res.status(400).json({message:"seller alredy existed with this email"})
+      }
+
+      const hashPassword = await sellerModel.hashPassword(password)
+
+
+      const seller = await  sellerService.createSeller({
+        fullname,
+        storeName,
+        storeDescription,
+        email,
+        password:hashPassword
+      })
+      console.log(seller)
+
+      const token = seller.generateAuthToken()
+
+      res.status(200).json({ message:{token,seller}})
+
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
+
+module.exports.loginSeller = async (req,res)=>{
+  try {
+    const {email,password} = req.body
+
+    const seller = await sellerModel.findOne({email}).select("+password")
+
+    if(!seller){
+      return res.status(400).json({message:"email invalid"})
+    }
+
+
+    const comparePassword = await seller.comparePassword(password)
+
+    if(!comparePassword){
+      return res.status(400).json({message:"password invalid"})
+    }
+
+    const token = seller.generateAuthToken()
+
+
+    res.status(200).json({message:{token,seller}})
+
+
+
+  } catch (error) {
+      res.status(500).json({error:error.message})
+  }
+}

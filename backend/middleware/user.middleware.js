@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
 const userModel  = require("../models/user.model")
+const sellerModel = require("../models/seller.model")
 
 
 module.exports.authMiddelware = async (req,res,next)=>{
@@ -21,5 +22,26 @@ module.exports.authMiddelware = async (req,res,next)=>{
 
     }catch(error){
        return  res.status(400).json({message:"gtoign"})
+    }
+}
+
+module.exports.sellerMiddleware = async (req,res,next)=>{
+    try {
+        const token  = req.header("Authorization")?.split(" ")[1]
+        const decoded = jwt.verify(token,process.env.JWT_SELLER)
+        const seller  = await sellerModel.findById(decoded._id)
+
+
+        if(!seller){
+            return res.status(400).json({message:"unauthorized"})
+        }
+
+        req.seller = seller
+
+        next()
+
+
+    } catch (error) {
+        res.status(500).json({error:error.message})
     }
 }

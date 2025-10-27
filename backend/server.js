@@ -6,6 +6,7 @@ const app = express()
 const userRoutes = require("./routes/user.routes")
 const productRoutes = require("./routes/product.routes")
 const cartRoutes = require("./routes/carts.routes")
+const sellerRoutes = require("./routes/seller.routes")
 connectToDB()
 
 
@@ -16,7 +17,7 @@ app.use(express.urlencoded({extended:true}))
 app.use("/user",userRoutes)
 app.use("/productdata", productRoutes)
 app.use("/cart",cartRoutes)
-
+app.use("/seller",sellerRoutes)
 
 
 app.get("/",(req,res)=>{
