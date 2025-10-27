@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
         require:true,
         minlength:[6,"minimum 6 characters"],
         select:false
+    },
+    user:{
+        type:String,
+        default:"user",
+        enum:["user","admin","store"]
     }
 })
 
