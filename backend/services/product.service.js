@@ -1,9 +1,9 @@
 const productModel = require("../models/product.model")
 
 
-module.exports.createProduct =  async ({title,description,salePrice,price,category,image,size})=>{
-    console.log(title,description,salePrice,price,category,image,size)
-    if(!title ||!description ||!salePrice ||!price ||!category ||!image ||!size ){
+module.exports.createProduct =  async ({title,description,salePrice,price,category,image,size,productby})=>{
+    console.log(title,description,salePrice,price,category,image,size,productby)
+    if(!title ||!description ||!salePrice ||!price ||!category ||!image ||!size ||!productby ){
         throw new Error("all files required")
     }
 
@@ -14,7 +14,8 @@ module.exports.createProduct =  async ({title,description,salePrice,price,catego
         price,
         category,
         image,
-        size
+        size,
+        productby
     })
 
     return product

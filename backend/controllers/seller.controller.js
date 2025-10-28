@@ -1,5 +1,6 @@
 const sellerModel = require("../models/seller.model")
 const sellerService = require("../services/seller.service")
+const productModel = require("../models/product.model")
 
 
 module.exports.registerSeller = async (req,res)=>{
@@ -62,3 +63,28 @@ module.exports.loginSeller = async (req,res)=>{
       res.status(500).json({error:error.message})
   }
 }
+
+
+
+module.exports.dashboardSeller = async (req,res)=>{
+  try {
+
+    seller = req.seller
+    
+
+    const products = await productModel.find({productby:seller.storeName})
+
+    acitivityStatus = products.filter(p=>p.active == true)
+    
+
+
+
+    // const price = salePrice.reduce((a,c)=>a+c,0)
+
+    res.status(200).json({message:{acitivityStatus}})
+
+  } catch (error) {
+    res.status(500).json({error:error.message})
+  }
+}
+

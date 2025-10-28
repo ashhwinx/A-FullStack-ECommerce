@@ -7,6 +7,7 @@ const userRoutes = require("./routes/user.routes")
 const productRoutes = require("./routes/product.routes")
 const cartRoutes = require("./routes/carts.routes")
 const sellerRoutes = require("./routes/seller.routes")
+const orderRoutes = require("./routes/order.routes")
 connectToDB()
 
 
@@ -18,7 +19,7 @@ app.use("/user",userRoutes)
 app.use("/productdata", productRoutes)
 app.use("/cart",cartRoutes)
 app.use("/seller",sellerRoutes)
-
+app.use("/order",orderRoutes)
 
 app.get("/",(req,res)=>{
     res.send("hello yawrwrrwwr")

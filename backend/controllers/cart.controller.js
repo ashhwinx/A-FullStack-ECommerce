@@ -1,5 +1,10 @@
 const cartModel = require("../models/cart.model");
 
+
+
+
+
+//need token in head and productId
 module.exports.addToCart = async (req, res) => {
   try {
     const userid = req.user._id
@@ -29,9 +34,6 @@ module.exports.addToCart = async (req, res) => {
         cart.products.push({ productId, quantity: 1 })
       }
 
-
-
-
     }
 
     await cart.save()
@@ -43,7 +45,7 @@ module.exports.addToCart = async (req, res) => {
 };
 
 
-
+//need token in head and productId
 module.exports.deleteToCart = async (req,res)=>{
     try {
         const userid = req.user._id
