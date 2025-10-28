@@ -39,7 +39,16 @@ module.exports.loginSeller = async (req,res)=>{
   try {
     const {email,password} = req.body
 
+
     const seller = await sellerModel.findOne({email}).select("+password")
+
+    if(seller.active==false){
+      return res.status(400).json({message:"you are not approved for a seller yet"})
+    }
+
+
+
+
 
     if(!seller){
       return res.status(400).json({message:"email invalid"})
