@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Bebas+Neue&family=Fjalla+One&family=Michroma&family=Orbitron:wght@400..900&family=Special+Gothic+Expanded+One&family=Zalando+Sans+SemiExpanded:ital,wght@0,200..900;1,200..900&display=swap');
+@import "tailwindcss";
+
+@theme{
+  --font-gothic : "Special Gothic Expanded One", sans-serif;
+  --font-bbh-sans-bartle :  "BBH Sans Bartle", sans-serif;
+  --font-zalando:"Zalando Sans SemiExpanded", sans-serif;
+  --font-fjalla : "Fjalla One", sans-serif;
+  --font-bebas:"Bebas Neue", sans-serif;
+  --font-michroma:"Michroma", sans-serif; 
+  --font-orbitron: "Orbitron", sans-serif;
+}
+
+
+
+
+body{
+  
+  color: white;
+  margin:10px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,      /* 0%  → Fully transparent (top) */
+    rgba(0, 0, 0, 0.1) 70%,   /* 70% → Medium dark fade */
+    rgba(0, 0, 0, 0.3) 100%     /* 100% → Full black (bottom) */
+  );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

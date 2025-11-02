@@ -1,9 +1,5 @@
 const cartModel = require("../models/cart.model");
 
-
-
-
-
 //need token in head and productId
 module.exports.addToCart = async (req, res) => {
   try {

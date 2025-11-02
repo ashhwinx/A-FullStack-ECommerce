@@ -11,7 +11,4 @@ Router.post("/register",UserController.registerUser)
 Router.post("/login",userMiddleware.authMiddelware,UserController.loginUser)
 
 
-
-
-
 module.exports = Router
