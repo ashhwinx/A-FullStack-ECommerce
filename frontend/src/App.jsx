@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar"
 import HeroPage from "./pages/HeroPage"
 import CollectionPage from './pages/CollectionPage'
 import ProductDetailPage  from './pages/ProductDEtailPage'
-import StorePage from './pages/StorePage'
+import StoreDashboard from "./pages/StoreDashboard"
 
 const App = () => {
   const handleAnimationComplete = () => {
@@ -11,11 +11,12 @@ const App = () => {
   };
   return (
     <>
-      <Navbar/>
+      {/* <Navbar/> */}
       {/* <HeroPage/> */}
       {/* <CollectionPage/> */}
       {/* <ProductDetailPage/> */}
-      <StorePage/>
+      {/* <StorePage/> */}
+      <StoreDashboard/>
     </>
   )
 }
