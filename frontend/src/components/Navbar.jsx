@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import { MdPeopleAlt } from "react-icons/md";
 import { IoSearchSharp } from "react-icons/io5";
@@ -8,12 +8,38 @@ import { motion } from "framer-motion";
 const Navbar = () => {
   const [focused, setFocused] = useState(false);
   const [profile, setProfile] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Detect scroll direction
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // scrolling down
+        setShowNavbar(false);
+      } else {
+        // scrolling up
+        setShowNavbar(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <div className=" ">
+    <motion.div
+      initial={{ y: 0 }}
+      animate={{ y: showNavbar ? 0 : -100 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+      className="fixed top-1 left-0 right-0 z-50"
+    >
       {/* Navbar */}
-      <div className="bg-black rounded-2xl mx-2  h-18 shadow-md flex items-center px-10 justify-between">
-        
+      <div className="bg-black rounded-2xl mx-2 h-18 shadow-md flex items-center px-10 justify-between">
         {/* Left Section */}
         <ul className="flex gap-10 ml-8 text-white font-zalando text-xl items-center">
           <li className="cursor-pointer hover:opacity-50">Home</li>
@@ -56,7 +82,7 @@ const Navbar = () => {
 
             {profile && (
               <>
-                {/* Invisible full-screen backdrop to close dropdown */}
+                {/* Invisible backdrop to close dropdown */}
                 <div
                   className="fixed inset-0 z-10"
                   onClick={() => setProfile(false)}
@@ -68,8 +94,8 @@ const Navbar = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="h-auto w-56 mt-5  bg-black rounded-2xl flex flex-col gap-2 p-3 shadow-[0_0_2px_black]"
-                    onClick={(e) => e.stopPropagation()} // prevent close when clicking inside
+                    className="h-auto w-56 mt-5 bg-black rounded-2xl flex flex-col gap-2 p-3 shadow-[0_0_2px_black]"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {/* Profile */}
                     <motion.div
@@ -127,7 +153,7 @@ const Navbar = () => {
           </div>
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,5 +1,9 @@
 import React from "react";
 import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
+import CircularText from "../components/other/CircularText ";
+
+
+
 
 const Footer = () => {
   return (
@@ -9,7 +13,7 @@ const Footer = () => {
         
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-orbitron text-white mb-4">STYLEGENZ</h2>
+          <h2 className="text-2xl font-bbh-sans-bartle text-white mb-4">ZYLO</h2>
           <p className="text-gray-400 text-sm leading-relaxed font-gothic">
             Redefining streetwear for the new generation. 
             Crafted with purpose, worn with confidence.
@@ -61,17 +65,24 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mt-10 gap-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row   items-center mt-10 gap-6">
         {/* Social Icons */}
-        <div className="flex gap-6 text-gray-400 text-lg">
-          <FaInstagram className="hover:text-white cursor-pointer transition duration-300" />
+        <div className="flex gap-6 text-gray-400  text-lg">
+          <FaInstagram className="hover:text-white cursor-pointer transition duration-300 ml-20" />
           <FaFacebookF className="hover:text-white cursor-pointer transition duration-300" />
           <FaTwitter className="hover:text-white cursor-pointer transition duration-300" />
-          <FaYoutube className="hover:text-white cursor-pointer transition duration-300" />
+          <FaYoutube className="hover:text-white cursor-pointer transition duration-300 mr-60" />
         </div>
 
+        <CircularText
+  text="*ZYLO*ZYLO"
+  onHover="speedUp"
+  spinDuration={20}
+  className="custom-class "
+/>
+
         {/* Copyright */}
-        <p className="text-gray-500 text-sm font-gothic text-center">
+        <p className="text-gray-500 text-sm ml-50 font-gothic text-center">
           © {new Date().getFullYear()} STYLEGENZ. All rights reserved.
         </p>
       </div>

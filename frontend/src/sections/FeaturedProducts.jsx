@@ -86,7 +86,7 @@ const FeaturedProducts = () => {
               </div>
 
               {/* Add to Cart */}
-              <button className="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-black rounded-xl font-gothic text-base transition-all duration-500 group-hover:bg-black group-hover:text-white">
+              <button className="mt-4 w-full flex items-center justify-center gap-2 py-2 border text-black border-black rounded-xl font-gothic text-base transition-all duration-500 group-hover:bg-black group-hover:text-white">
                 <span>Add To Cart</span>
                 <FaCartShopping className="group-hover:translate-x-1 transition-transform" />
               </button>

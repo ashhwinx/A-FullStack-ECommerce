@@ -4,6 +4,7 @@ import React from "react";
 import ScrollReveal from "../components/other/ScrollReveal";
 import ScrollFloat from "../components/other/ScrollFloat";
 
+
 const AboutSection = () => {
   return (
     <section className=" text-black py-24 px-6 md:px-16">
@@ -30,7 +31,7 @@ const AboutSection = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <img
-            src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=800&q=80"
+            src="/about.jpeg"
             alt="Our Story"
             className="w-full h-[500px] object-cover"
           />
@@ -43,9 +44,7 @@ const AboutSection = () => {
   baseRotation={5}
   blurStrength={10}
 >
-  When does a man die? When he is hit by a bullet? No! When he suffers a disease?
-  No! When he ate a soup made out of a poisonous mushroom?
-  No! A man dies when he is forgotten!
+At ZYLO, we blend street vibes with luxury feels clean, bold, and built to flex. Every drop drips attitude, comfort, and timeless energy
 </ScrollReveal>
         
       </div>
