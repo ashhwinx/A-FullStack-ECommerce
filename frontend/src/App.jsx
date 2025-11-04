@@ -1,12 +1,9 @@
 import React from 'react'
 import Navbar from "./components/Navbar"
-import Hero from './sections/Hero'
-import Collection from './sections/Collections'
-import FeaturedProducts from './sections/FeaturedProducts'
-import LifestyleBanner from './sections/LifestyleBanner'
-import Testimonials from './sections/Testimonials'
-import Footer from "./sections/Footer"
-import About from "./sections/About"
+import HeroPage from "./pages/HeroPage"
+import CollectionPage from './pages/CollectionPage'
+import ProductDetailPage  from './pages/ProductDEtailPage'
+import StorePage from './pages/StorePage'
 
 const App = () => {
   const handleAnimationComplete = () => {
@@ -15,20 +12,10 @@ const App = () => {
   return (
     <>
       <Navbar/>
-      
-
-
-      <Hero/>
-      <Collection/>
-      <About/>
-   
-      <FeaturedProducts/>
-      <LifestyleBanner/>
-      <Testimonials/>
-      <Footer/>
-      
-    
-    
+      {/* <HeroPage/> */}
+      {/* <CollectionPage/> */}
+      {/* <ProductDetailPage/> */}
+      <StorePage/>
     </>
   )
 }

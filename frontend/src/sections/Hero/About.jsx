@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import React from "react";
-import ScrollReveal from "../components/other/ScrollReveal";
-import ScrollFloat from "../components/other/ScrollFloat";
+import ScrollReveal from "../../components/other/ScrollReveal";
+import ScrollFloat from "../../components/other/ScrollFloat";
 
 
 const AboutSection = () => {

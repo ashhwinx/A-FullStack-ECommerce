@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import ScrollFloat from "../components/other/ScrollFloat"
+import ScrollFloat from "../../components/other/ScrollFloat"
 
 const testimonials = [
   {

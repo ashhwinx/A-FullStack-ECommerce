@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaCartShopping } from "react-icons/fa6";
-import ScrollFloat from "../components/other/ScrollFloat"
+import ScrollFloat from "../../components/other/ScrollFloat"
 
 const featuredProducts = [
   {

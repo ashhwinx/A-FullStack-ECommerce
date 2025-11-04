@@ -1,6 +1,6 @@
 import React from "react";
 import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
-import CircularText from "../components/other/CircularText ";
+import CircularText from "./CircularText ";
 
 
 

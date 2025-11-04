@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import CollectionBox from "../components/collection/CollectionBox";
-import ScrollFloat from "../components/other/ScrollFloat";
+import CollectionBox from "../../components/collection/CollectionBox";
+import ScrollFloat from "../../components/other/ScrollFloat";
 const Collection = () => {
   const items = [
     "Men",
