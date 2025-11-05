@@ -1,4 +1,3 @@
-// pages/StoreDashboard.jsx (or app/store/dashboard/page.jsx in Next.js app dir)
 "use client";
 import React, { useState } from "react";
 import Sidebar from "../components/Store/Sidebar";

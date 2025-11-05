@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Footer from "../components/other/Footer";
+
 
 // Dummy products
 const products = Array.from({ length: 20 }, (_, i) => ({
