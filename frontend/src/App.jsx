@@ -4,7 +4,7 @@ import HeroPage from "./pages/HeroPage"
 import CollectionPage from './pages/CollectionPage'
 import ProductDetailPage  from './pages/ProductDEtailPage'
 import StoreDashboard from "./pages/StoreDashboard"
-
+import AdminLayout from './pages/AdminLayout'
 const App = () => {
   const handleAnimationComplete = () => {
     console.log('Animation completed!');
@@ -13,10 +13,11 @@ const App = () => {
     <>
       {/* <Navbar/> */}
       {/* <HeroPage/> */}
-      <CollectionPage/>
+      {/* <CollectionPage/> */}
       {/* <ProductDetailPage/> */}
       {/* <StorePage/> */}
       {/* <StoreDashboard/> */}
+      <AdminLayout/>
     </>
   )
 }

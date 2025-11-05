@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiHome, FiUsers, FiCheckCircle } from "react-icons/fi";
-import AdminDashboardHome from "./AdminDashboardHome";
-import AdminStores from "./AdminStores";
-import AdminApproveStore from "./AdminApproveStore";
+import AdminDashboardHome from "../components/admin/AdminDashboardHome";
+import AdminStores from "../components/admin/AdminStores";
+import AdminApproveStore from "../components/admin/AdminApproveStore";
 
 const AdminLayout = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
