@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { FiHome, FiUsers, FiCheckCircle } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiHome, FiUsers, FiCheckCircle, FiLogOut } from "react-icons/fi";
 import AdminDashboardHome from "../components/admin/AdminDashboardHome";
 import AdminStores from "../components/admin/AdminStores";
 import AdminApproveStore from "../components/admin/AdminApproveStore";
@@ -9,7 +9,6 @@ import AdminApproveStore from "../components/admin/AdminApproveStore";
 const AdminLayout = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
-  // demo data
   const stats = {
     products: 122,
     revenue: 564000,
@@ -44,16 +43,16 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex    text-gray-900">
       {/* Sidebar */}
-      <aside className="w-64 bg-black text-white p-6 flex flex-col justify-between sticky top-0 h-screen">
+      <aside className="w-64 bg-black text-white rounded-3xl p-6 flex flex-col justify-between sticky top-0 h-100 shadow-xl">
         <div>
           {/* Admin Profile */}
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-4 mb-10">
             <img
               src="https://source.unsplash.com/60x60/?portrait,person"
               alt="Admin"
-              className="w-12 h-12 rounded-full border-2 border-gray-700"
+              className="w-14 h-14 rounded-2xl border border-gray-700 object-cover"
             />
             <div>
               <p className="font-semibold text-lg">Admin Panel</p>
@@ -63,55 +62,77 @@ const AdminLayout = () => {
 
           {/* Menu */}
           <nav className="space-y-3">
-            <button
-              onClick={() => setActiveTab("dashboard")}
-              className={`flex items-center gap-2 w-full px-4 py-2 rounded-xl text-sm transition-all ${
-                activeTab === "dashboard"
-                  ? "bg-white text-black"
-                  : "hover:bg-gray-800"
-              }`}
-            >
-              <FiHome /> Dashboard
-            </button>
-
-            <button
-              onClick={() => setActiveTab("stores")}
-              className={`flex items-center gap-2 w-full px-4 py-2 rounded-xl text-sm transition-all ${
-                activeTab === "stores"
-                  ? "bg-white text-black"
-                  : "hover:bg-gray-800"
-              }`}
-            >
-              <FiUsers /> Stores
-            </button>
-
-            <button
-              onClick={() => setActiveTab("approve")}
-              className={`flex items-center gap-2 w-full px-4 py-2 rounded-xl text-sm transition-all ${
-                activeTab === "approve"
-                  ? "bg-white text-black"
-                  : "hover:bg-gray-800"
-              }`}
-            >
-              <FiCheckCircle /> Approve Stores
-            </button>
+            {[
+              { id: "dashboard", label: "Dashboard", icon: <FiHome /> },
+              { id: "stores", label: "Stores", icon: <FiUsers /> },
+              { id: "approve", label: "Approve Stores", icon: <FiCheckCircle /> },
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-sm transition-all ${
+                  activeTab === item.id
+                    ? "bg-white text-black shadow-md"
+                    : "hover:bg-gray-800 hover:translate-x-1"
+                }`}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </button>
+            ))}
           </nav>
         </div>
 
-        <p className="text-xs text-gray-500 mt-10 text-center">
-          © 2025 LuxeStreet Admin
-        </p>
+        {/* Footer */}
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition">
+            <FiLogOut /> Logout
+          </button>
+          <p className="text-[11px] text-gray-500 text-center">
+            © 2025 LuxeStreet Admin
+          </p>
+        </div>
       </aside>
 
       {/* Right Section */}
-      <main className="flex-1 p-8 overflow-y-auto">
-        {activeTab === "dashboard" && (
-          <AdminDashboardHome stats={stats} />
-        )}
-        {activeTab === "stores" && <AdminStores stores={stores} />}
-        {activeTab === "approve" && (
-          <AdminApproveStore stores={pendingStores} />
-        )}
+      <main className="flex-1 px-8  overflow-y-auto">
+        <div className="bg-white/90 backdrop-blur-md shadow-sm border border-gray-100 rounded-3xl p-8 min-h-[85vh] transition-all">
+          <AnimatePresence mode="wait">
+            {activeTab === "dashboard" && (
+              <motion.div
+                key="dashboard"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <AdminDashboardHome stats={stats} />
+              </motion.div>
+            )}
+            {activeTab === "stores" && (
+              <motion.div
+                key="stores"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <AdminStores stores={stores} />
+              </motion.div>
+            )}
+            {activeTab === "approve" && (
+              <motion.div
+                key="approve"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <AdminApproveStore stores={pendingStores} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </main>
     </div>
   );

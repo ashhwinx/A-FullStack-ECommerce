@@ -19,7 +19,7 @@ const DashboardHome = ({ products, orders, earnings }) => {
   };
 
   return (
-    <div className="p-6 text-black">
+    <div className="p-6 mt-20 bg-white border border-gray-200 rounded-2xl shadow-md rounded-2xl text-black">
       <motion.h2
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

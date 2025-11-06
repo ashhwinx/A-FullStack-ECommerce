@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCartShopping } from "react-icons/fa6";
-import ScrollFloat from "../../components/other/ScrollFloat"
+import ScrollFloat from "../../components/other/ScrollFloat";
 
 const featuredProducts = [
   {
@@ -35,21 +35,30 @@ const featuredProducts = [
 ];
 
 const FeaturedProducts = () => {
+  // Track which product was recently added
+  const [added, setAdded] = useState(null);
+
+  const handleAddToCart = (id) => {
+    setAdded(id);
+    setTimeout(() => setAdded(null), 2000); // reset after 2s
+  };
+
   return (
-    <section className="py-20 px-6 ">
+    <section className="py-20 px-6 relative">
       {/* Heading */}
       <div className="text-center mb-16">
-        <p className="text-gray-500 tracking-widest uppercase text-sm">Handpicked</p>
+        <p className="text-gray-500 tracking-widest uppercase text-sm">
+          Handpicked
+        </p>
         <ScrollFloat
-  animationDuration={0.5}
-  ease='back.inOut(2)'
-  scrollStart='center bottom+=50%'
-  scrollEnd='bottom bottom-=40%'
-  stagger={0.03}
-  
->
-    Featured Product
-</ScrollFloat>
+          animationDuration={0.5}
+          ease="back.inOut(2)"
+          scrollStart="center bottom+=50%"
+          scrollEnd="bottom bottom-=40%"
+          stagger={0.03}
+        >
+          Featured Product
+        </ScrollFloat>
         <p className="text-gray-500 mt-0 max-w-md mx-auto font-gothic">
           Discover the best of our collection curated just for you.
         </p>
@@ -79,23 +88,40 @@ const FeaturedProducts = () => {
             <div className="p-4">
               <h3 className="text-lg font-semibold text-black">{product.name}</h3>
               <div className="flex items-center mt-2 space-x-3">
-                <p className="text-md font-orbitron text-black">₹{product.price}</p>
+                <p className="text-md font-orbitron text-black">
+                  ₹{product.price}
+                </p>
                 <p className="text-gray-400 line-through text-md font-orbitron">
                   ₹{product.oldPrice}
                 </p>
               </div>
 
               {/* Add to Cart */}
-              <button className="mt-4 w-full flex items-center justify-center gap-2 py-2 border text-black border-black rounded-xl font-gothic text-base transition-all duration-500 group-hover:bg-black group-hover:text-white">
-                <span>Add To Cart</span>
-                <FaCartShopping className="group-hover:translate-x-1 transition-transform" />
-              </button>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => handleAddToCart(product.id)}
+                className={`mt-4 w-full flex items-center justify-center gap-2 py-2 border text-base font-gothic rounded-xl transition-all duration-500
+                  ${
+                    added === product.id
+                      ? "bg-green-500 border-green-500 text-white"
+                      : "text-black border-black hover:bg-black hover:text-white"
+                  }`}
+              >
+                {added === product.id ? (
+                  <span>Added!</span>
+                ) : (
+                  <>
+                    <span>Add To Cart</span>
+                    <FaCartShopping className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </motion.button>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Decorative Background Accent */}
+      {/* Background Accent */}
       <div className="absolute inset-0 -z-10 opacity-10 bg-[radial-gradient(circle_at_center,black,transparent_60%)]"></div>
     </section>
   );

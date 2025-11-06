@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 
 const products = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
@@ -18,6 +19,12 @@ const colors = ["All", "Black", "White", "Beige", "Grey"];
 const StorePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedColor, setSelectedColor] = useState("All");
+  const [added, setAdded] = useState(null);
+
+  const handleAddToCart = (id) => {
+    setAdded(id);
+    setTimeout(() => setAdded(null), 2000); // reset after 2s
+  };
 
   const filteredProducts = products.filter(
     (p) =>
@@ -26,7 +33,7 @@ const StorePage = () => {
   );
 
   return (
-    <section className="w-full min-h-screen mt-20 text-black pt-10 pb-16">
+    <section className="w-full min-h-screen mt-20 text-black pt-10 pb-16 relative">
       {/* 👇 Store About Section (Compact) */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -160,9 +167,20 @@ const StorePage = () => {
                   <p className="text-gray-500 text-sm font-gothic">
                     ₹{product.price}
                   </p>
-                  <button className="mt-3 w-full py-2 bg-black text-white rounded-xl font-gothic text-sm hover:bg-gray-800 transition-all">
-                    Add to Cart
-                  </button>
+
+                  {/* Add to Cart Button */}
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => handleAddToCart(product.id)}
+                    className={`mt-3 w-full py-2 rounded-xl flex items-center  justify-center font-gothic text-sm border transition-all duration-500
+                      ${
+                        added === product.id
+                          ? "bg-green-500 border-green-500 text-white"
+                          : "bg-black text-white border-black hover:bg-gray-800"
+                      }`}
+                  >
+                    {added === product.id ? "Added!" : "Add to Cart "}     <FaCartShopping className="ml-2"/>
+                  </motion.button> 
                 </div>
               </motion.div>
             ))}
