@@ -17,10 +17,15 @@ const product = {
   sizes: ["S", "M", "L", "XL"],
 };
 
-const ProductDetailPage = () => {
+const ProductDetailPage = ({product}) => {
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [added, setAdded] = useState(false);
+  console.log(product)
+
+
+
+
 
   const handleAddToCart = () => {
     setAdded(true);

@@ -9,7 +9,14 @@ const cartRoutes = require("./routes/carts.routes")
 const sellerRoutes = require("./routes/seller.routes")
 const orderRoutes = require("./routes/order.routes")
 const adminRoutes = require("./routes/admin.routes")
+const cors = require("cors")
 connectToDB()
+
+app.use(cors({
+    origin:"http://localhost:5173",
+    methods:["GET",'POST','PUT','DELETE'],
+    credentials:true
+}))
 
 
 

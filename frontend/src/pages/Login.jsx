@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiMail, FiLock } from "react-icons/fi";
+import axios from "axios"
 
 const Login = ({ onLogin }) => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -10,9 +11,12 @@ const Login = ({ onLogin }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin?.(form);
+    const res = await axios.post(`${import.meta.env.VITE_URL}/user/login`,form)
+    localStorage.setItem("token", res.data.token)
+
     alert("Login successful ✅");
   };
 

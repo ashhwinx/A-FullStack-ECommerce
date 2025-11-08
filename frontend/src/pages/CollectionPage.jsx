@@ -1,34 +1,77 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 
-// Dummy products
-const products = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  name: `Streetwear Drop ${i + 1}`,
-  price: (2499 + i * 100).toLocaleString(),
-  image: `https://source.unsplash.com/600x600/?streetwear,fashion,${i}`,
-  category: i % 2 === 0 ? "Men" : "Women",
-  color: i % 3 === 0 ? "Black" : "White",
-}));
 
-const categories = ["All", "Men", "Women", "Essentials", "Limited"];
-const colors = ["All", "Black", "White", "Beige", "Grey"];
+
+const categories = ["All", "Men", "Women", "Kids"];
+const subCategory = ["All", "Tshirt", "Shirt", "Pants", "Shoe",""];
 
 const CollectionPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedColor, setSelectedColor] = useState("All");
-  const [addedProduct, setAddedProduct] = useState(null);
+  const [products, setProducts] = useState([])
 
-  const handleAddToCart = (id) => {
-    setAddedProduct(id);
+
+  const [category, setSelectedCategory] = useState("All");
+  const [selectedColor, setSelectedColor] = useState("All");
+
+
+  const [addedProduct, setAddedProduct] = useState(null);
+  const [selectedPrice, setselectedPrice] = useState("Sort by")
+  const token = localStorage.getItem("token")
+  
+
+
+  useEffect(() => {
+    const fetchProducts = async()=>{
+        try {
+
+          const res = await axios.post(`${import.meta.env.VITE_URL}/productdata/products`,{category,selectedPrice}, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+            setProducts(res.data.products)  
+        } catch (error) {
+          console.error("Error fetching featured products:", error);
+        }
+
+
+    }
+  
+    
+   fetchProducts()
+
+
+  }, [category, selectedPrice])
+
+
+
+
+  const handleAddToCart = async (productId) => {
+    setAddedProduct(productId);
+
     setTimeout(() => setAddedProduct(null), 2000);
+
+    const res = await axios.post(`${import.meta.env.VITE_URL}/cart/add`,{productId},{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    })
+    
+    
   };
+
+  const handleSortChange = (e)=>{
+        setselectedPrice(e.target.value)
+       
+  }
 
   const filteredProducts = products.filter(
     (p) =>
-      (selectedCategory === "All" || p.category === selectedCategory) &&
+      (category === "All" || p.category === category) &&
       (selectedColor === "All" || p.color === selectedColor)
   );
 
@@ -36,7 +79,7 @@ const CollectionPage = () => {
     <section className="w-full min-h-screen mt-10 py-16 px-6 md:px-12 flex gap-10">
       {/* Left Sidebar - Filters */}
       <div className="w-[22%] hidden md:block bg-white border border-gray-200 rounded-3xl p-6 h-fit sticky top-24 shadow-sm">
-        <h2 className="text-xl font-semibold mb-4 font-orbitron">Filters</h2>
+        <h2 className="text-xl font-semibold mb-4 text-black font-orbitron">Filters</h2>
 
         {/* Category Filter */}
         <div className="mb-8">
@@ -49,7 +92,7 @@ const CollectionPage = () => {
                 <button
                   onClick={() => setSelectedCategory(cat)}
                   className={`text-sm transition-all ${
-                    selectedCategory === cat
+                    category === cat
                       ? "font-semibold text-black underline"
                       : "text-gray-600 hover:text-black"
                   }`}
@@ -62,12 +105,12 @@ const CollectionPage = () => {
         </div>
 
         {/* Color Filter */}
-        <div>
+        {/* <div>
           <h3 className="text-sm uppercase text-gray-500 mb-2 font-gothic">
-            Color
+            Sub Category
           </h3>
           <ul className="space-y-2">
-            {colors.map((clr) => (
+            {subCategory.map((clr) => (
               <li key={clr}>
                 <button
                   onClick={() => setSelectedColor(clr)}
@@ -82,7 +125,7 @@ const CollectionPage = () => {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
 
       {/* Right Side - Product Grid */}
@@ -98,9 +141,13 @@ const CollectionPage = () => {
           </div>
 
           {/* Sort Dropdown */}
-          <select className="border border-gray-300 text-black rounded-xl p-2 text-sm font-gothic focus:outline-none">
+          <select 
+            className="border border-gray-300 text-black rounded-xl p-2 text-sm font-gothic focus:outline-none"
+            value={selectedPrice}
+            onChange={handleSortChange}
+          >
+
             <option>Sort by</option>
-            <option>Newest</option>
             <option>Price: Low to High</option>
             <option>Price: High to Low</option>
           </select>
@@ -125,10 +172,10 @@ const CollectionPage = () => {
               <div className="overflow-hidden relative group">
                 <motion.img
                   src={product.image}
-                  alt={product.name}
+                  alt={product.title}
                   whileHover={{ scale: 1.08 }}
                   transition={{ duration: 0.6 }}
-                  className="w-full h-[340px] object-cover rounded-t-3xl"
+                  className="w-full h-[340px] text-black object-cover rounded-t-3xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
               </div>
@@ -136,7 +183,7 @@ const CollectionPage = () => {
               {/* Info */}
               <div className="p-5 flex flex-col gap-2">
                 <h3 className="font-semibold text-black text-[1.05rem] tracking-tight">
-                  {product.name}
+                  {product.title}
                 </h3>
                 <p className="text-gray-500 text-sm font-gothic mb-2">
                   ₹{product.price}
@@ -144,9 +191,9 @@ const CollectionPage = () => {
 
                 <motion.button
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handleAddToCart(product.id)}
+                  onClick={() => handleAddToCart(product._id)}
                   className={`mt-2 w-full py-2 rounded-xl font-gothic text-sm font-medium transition-all duration-300 ${
-                    addedProduct === product.id
+                    addedProduct === product._id
                       ? "bg-green-500 text-white"
                       : "bg-black text-white hover:bg-gray-800"
                   }`}

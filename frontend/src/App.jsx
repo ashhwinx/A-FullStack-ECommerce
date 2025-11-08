@@ -20,14 +20,14 @@ const App = () => {
   return (
     <>
       {/* <Navbar/> */}
-      {/* <HeroPage/> */}
+      <HeroPage/>
       {/* <CollectionPage/> */}
-      {/* <ProductDetailPage/> */}
+      <ProductDetailPage/>
       {/* <StorePage/> */}
       {/* <StoreDashboard/> */}
       {/* <AdminLayout/> */}
       {/* <Signup/> */}
-      <Login/>
+      {/* <Login/> */}
       
     </>
   )

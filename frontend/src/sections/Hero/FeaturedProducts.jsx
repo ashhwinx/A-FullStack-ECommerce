@@ -1,113 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaCartShopping } from "react-icons/fa6";
 import ScrollFloat from "../../components/other/ScrollFloat";
-
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Minimal Black Hoodie",
-    price: 1499,
-    oldPrice: 1799,
-    img: "https://images.unsplash.com/photo-1602810318383-e386cc2a3a29?q=80&w=800",
-  },
-  {
-    id: 2,
-    name: "White Oversized Tee",
-    price: 899,
-    oldPrice: 1099,
-    img: "https://images.unsplash.com/photo-1618354691515-1c6b7c4c3f93?q=80&w=800",
-  },
-  {
-    id: 3,
-    name: "Denim Street Jacket",
-    price: 1899,
-    oldPrice: 2199,
-    img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800",
-  },
-  {
-    id: 4,
-    name: "Chunky Sneakers",
-    price: 2599,
-    oldPrice: 2999,
-    img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800",
-  },
-];
+import axios from "axios";
+import ProductDetailPage from "../../pages/ProductDEtailPage";
 
 const FeaturedProducts = () => {
-  // Track which product was recently added
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [added, setAdded] = useState(null);
+  const [clicked, setClicked] = useState(false);
+  const [dataSend, setDataSend] = useState(null);
+  const token = localStorage.getItem("token");
 
-  const handleAddToCart = (id) => {
-    setAdded(id);
-    setTimeout(() => setAdded(null), 2000); // reset after 2s
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_URL}/productdata/products`,
+          {}, // no body needed
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const allProducts = res.data.products || [];
+        // Shuffle & take 4 random products
+        const randomFour = allProducts.sort(() => 0.5 - Math.random()).slice(0, 4);
+        setFeaturedProducts(randomFour);
+      } catch (error) {
+        console.error("Error fetching featured products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, [token]);
+
+  const handleAddToCart = async (productId) => {
+    setAdded(productId);
+    setTimeout(() => setAdded(null), 2000);
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_URL}/cart/add`,
+        { productId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+    }
   };
 
-  return (
-    <section className="py-20 px-6 relative">
-      {/* Heading */}
-      <div className="text-center mb-16">
-        <p className="text-gray-500 tracking-widest uppercase text-sm">
-          Handpicked
-        </p>
-        <ScrollFloat
-          animationDuration={0.5}
-          ease="back.inOut(2)"
-          scrollStart="center bottom+=50%"
-          scrollEnd="bottom bottom-=40%"
-          stagger={0.03}
-        >
-          Featured Product
-        </ScrollFloat>
-        <p className="text-gray-500 mt-0 max-w-md mx-auto font-gothic">
-          Discover the best of our collection curated just for you.
-        </p>
-      </div>
+const handleProductCard = (product) => {
+    setClicked(true);
+    setDataSend(product);
+  };
 
-      {/* Product Grid */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-        {featuredProducts.map((product, index) => (
+  // ✅ Return JSX
+  return clicked ? (
+    <section className="py-20 px-6 relative">
+    {/* Heading */}
+    <div className="text-center mb-16">
+      <p className="text-gray-500 tracking-widest uppercase text-sm">
+        Handpicked
+      </p>
+      <ScrollFloat
+        animationDuration={0.5}
+        ease="back.inOut(2)"
+        scrollStart="center bottom+=50%"
+        scrollEnd="bottom bottom-=40%"
+        stagger={0.03}
+      >
+        Featured Product
+      </ScrollFloat>
+      <p className="text-gray-500 mt-0 max-w-md mx-auto font-gothic">
+        Discover the best of our collection curated just for you.
+      </p>
+    </div>
+
+    {/* Product Grid */}
+    <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+      {featuredProducts.length > 0 ? (
+        featuredProducts.map((product, index) => (
           <motion.div
-            key={product.id}
+            key={product._id}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="group relative bg-white border border-black rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.05)] hover:shadow-[0_0_25px_rgba(0,0,0,0.15)] transition-all duration-500"
+            onClick={() => handleProductCard(product)}
+            className="group relative bg-white border border-black rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.05)] hover:shadow-[0_0_25px_rgba(0,0,0,0.15)] transition-all duration-500 cursor-pointer"
           >
-            {/* Image */}
+            {/* Product Image */}
             <div className="w-full h-72 overflow-hidden">
               <img
-                src={product.img}
-                alt={product.name}
+                src={product.image}
+                alt={product.title}
                 className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
               />
             </div>
 
-            {/* Content */}
+            {/* Product Info */}
             <div className="p-4">
-              <h3 className="text-lg font-semibold text-black">{product.name}</h3>
+              <h3 className="text-lg font-semibold text-black">
+                {product.title}
+              </h3>
               <div className="flex items-center mt-2 space-x-3">
                 <p className="text-md font-orbitron text-black">
                   ₹{product.price}
                 </p>
-                <p className="text-gray-400 line-through text-md font-orbitron">
-                  ₹{product.oldPrice}
-                </p>
+                {product.salePrice && (
+                  <p className="text-gray-400 line-through text-md font-orbitron">
+                    ₹{product.salePrice}
+                  </p>
+                )}
               </div>
 
-              {/* Add to Cart */}
+              {/* Add to Cart Button */}
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                onClick={() => handleAddToCart(product.id)}
-                className={`mt-4 w-full flex items-center justify-center gap-2 py-2 border text-base font-gothic rounded-xl transition-all duration-500
-                  ${
-                    added === product.id
-                      ? "bg-green-500 border-green-500 text-white"
-                      : "text-black border-black hover:bg-black hover:text-white"
-                  }`}
+                onClick={(e) => {
+                  e.stopPropagation(); // stop card click
+                  handleAddToCart(product._id);
+                }}
+                className={`mt-4 w-full flex items-center justify-center gap-2 py-2 border text-base font-gothic rounded-xl transition-all duration-500 ${
+                  added === product._id
+                    ? "bg-green-500 border-green-500 text-white"
+                    : "text-black border-black hover:bg-black hover:text-white"
+                }`}
               >
-                {added === product.id ? (
+                {added === product._id ? (
                   <span>Added!</span>
                 ) : (
                   <>
@@ -118,12 +139,20 @@ const FeaturedProducts = () => {
               </motion.button>
             </div>
           </motion.div>
-        ))}
-      </div>
+        ))
+      ) : (
+        <p className="text-center col-span-full text-gray-500">
+          Loading products...
+        </p>
+      )}
+    </div>
 
-      {/* Background Accent */}
-      <div className="absolute inset-0 -z-10 opacity-10 bg-[radial-gradient(circle_at_center,black,transparent_60%)]"></div>
-    </section>
+    {/* Background Accent */}
+    <div className="absolute inset-0 -z-10 opacity-10 bg-[radial-gradient(circle_at_center,black,transparent_60%)]"></div>
+  </section>
+    
+  ) : (
+    <ProductDetailPage product={dataSend} onBack={() => setClicked(false)} />
   );
 };
 

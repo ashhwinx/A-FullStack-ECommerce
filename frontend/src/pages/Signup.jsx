@@ -1,28 +1,36 @@
-"use client";
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+"use client"
+import React, { useState } from "react"
+import { motion } from "framer-motion"
+import axios from "axios"
 
-const Signup = ({ onSignup }) => {
+const Signup = () => {
+ 
+
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     address: "",
-  });
+  })
+
+ 
+  
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSignup?.(form);
-    alert("Signup successful ✅");
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    const res = await axios.post(`${import.meta.env.VITE_URL}/user/register`,form)
+    
+    alert("Signup successful ✅")
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div className="flex justify-center items-center min-h-screen  p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -36,18 +44,18 @@ const Signup = ({ onSignup }) => {
           <div className="flex gap-3">
             <input
               type="text"
-              name="firstName"
+              name="firstname"
               placeholder="First Name"
-              value={form.firstName}
+              value={form.firstname}
               onChange={handleChange}
               required
               className="w-1/2 px-4 py-2 text-black rounded-xl border border-gray-200 focus:border-black outline-none"
             />
             <input
               type="text"
-              name="lastName"
+              name="lastname"
               placeholder="Last Name"
-              value={form.lastName}
+              value={form.lastname}
               onChange={handleChange}
               required
               className="w-1/2 px-4 py-2 rounded-xl text-black border border-gray-200 focus:border-black outline-none"

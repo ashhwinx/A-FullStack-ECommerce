@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import { FaCartShopping } from "react-icons/fa6";
+import axios from "axios"
 
-const CollectionBox = () => {
+const CollectionBox = (product) => {
   const [added, setAdded] = useState(false);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     setAdded(true);
+    const productId = product.product._id
+    const token = localStorage.getItem("token")
+    const res = await axios.post(`${import.meta.env.VITE_URL}/cart/add`, {productId},{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setTimeout(() => setAdded(false), 2000); // revert after 2 sec
   };
+
+  
+  
 
   return (
     <>
@@ -16,7 +27,7 @@ const CollectionBox = () => {
         {/* Image Section */}
         <div className="w-full h-72   p-2 rounded-2xl overflow-hidden">
           <img
-            src="https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp"
+            src={product.product.image}
             alt="Jacket"
             className="object-cover w-full h-full transition-transform duration-500 rounded-xl group-hover:scale-105"
           />
@@ -24,10 +35,10 @@ const CollectionBox = () => {
 
         {/* Details Section */}
         <div className="p-4 text-black flex flex-col items-start">
-          <p className="font-gothic text-lg tracking-wide">JACKET</p>
+          <p className="font-gothic text-lg tracking-wide">{product.product.title}</p>
           <div className="flex items-center mt-2 space-x-3">
-            <h1 className="font-orbitron text-lg">₹1299</h1>
-            <h1 className="font-orbitron text-gray-400 text-lg line-through">₹1499</h1>
+            <h1 className="font-orbitron text-lg">₹{product.product.price}</h1>
+            <h1 className="font-orbitron text-gray-400 text-lg line-through">₹{product.product.salePrice}</h1>
           </div>
 
           {/* Add to Cart Button */}

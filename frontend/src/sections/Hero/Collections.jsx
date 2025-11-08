@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import CollectionBox from "../../components/collection/CollectionBox";
 import ScrollFloat from "../../components/other/ScrollFloat";
+import axios from "axios";
+
 const Collection = () => {
   const items = [
     "Men",
@@ -20,16 +22,34 @@ const Collection = () => {
     "Hoodies",
     "T-Shirts",
     "Caps",
-  ]
+  ];
 
-  // Fake product array (you can replace with real data)
-  const products = new Array(20).fill(null).map((_, i) => ({
-    id: i + 1,
-    name: `Product ${i + 1}`,
-  }))
 
-  const [startIndex, setStartIndex] = useState(0)
+  const [products, setProducts] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
   const productsPerPage = 8;
+  const token = localStorage.getItem("token")
+
+
+ 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_URL}/productdata/products`,{token} ,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProducts(res.data.products); 
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
+
+    fetchProducts();
+  }, []); 
+  
+
 
   const handleNext = () => {
     if (startIndex + productsPerPage < products.length) {
@@ -41,25 +61,23 @@ const Collection = () => {
     if (startIndex - productsPerPage >= 0) {
       setStartIndex(startIndex - productsPerPage);
     }
-  }
+  };
 
-  const visibleProducts = products.slice(startIndex, startIndex + productsPerPage)
+  const visibleProducts = products.slice(startIndex, startIndex + productsPerPage);
 
   return (
-    <div className="relative w-full overflow-hidden py-10 ">
+    <div className="relative w-full overflow-hidden py-10">
       {/* Heading */}
       <div className="flex items-center justify-center mb-8">
-        {/* <p className="text-black text-5xl mb-20 underline font-bold">BEST SELLER</p> */}
         <ScrollFloat
-  animationDuration={0.5}
-  ease='back.inOut(2)'
-  scrollStart='center bottom+=50%'
-  scrollEnd='bottom bottom-=40%'
-  stagger={0.03}
-  
->
-    BEST SELLER
-</ScrollFloat>
+          animationDuration={0.5}
+          ease="back.inOut(2)"
+          scrollStart="center bottom+=50%"
+          scrollEnd="bottom bottom-=40%"
+          stagger={0.03}
+        >
+          BEST SELLER
+        </ScrollFloat>
       </div>
 
       {/* Infinite Scroll Buttons */}
@@ -104,7 +122,7 @@ const Collection = () => {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 transition-all duration-700 ease-in-out">
           {visibleProducts.map((product) => (
-            <CollectionBox key={product.id} />
+            <CollectionBox key={product._id || product.id} product={product} />
           ))}
         </div>
 

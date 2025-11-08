@@ -5,8 +5,8 @@ const userService  = require("../services/userServices")
 
 module.exports.registerUser  = async (req,res)=>{
             try{
-
-                const {firstname,lastname,email,password} = req.body
+                   
+                const {firstname,lastname,email,password,address} = req.body
                 const userExisted = await userModel.findOne({email})
                 
                 if(userExisted){
@@ -20,7 +20,8 @@ module.exports.registerUser  = async (req,res)=>{
                     firstname,
                     lastname,
                     email,
-                    password:hasedPassword
+                    password:hasedPassword,
+                    address
                 })
 
 
@@ -30,7 +31,7 @@ module.exports.registerUser  = async (req,res)=>{
 
 
             }catch(error){
-                    res.status(400).json({message:error})
+                    res.status(400).json({error:error.message})
             }
 }
 
