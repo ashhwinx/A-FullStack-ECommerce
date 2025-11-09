@@ -10,15 +10,12 @@ const HeroPage = () => {
   return (
     <>
 
-
-
-
     <Hero/>
     <Collection/>
     <FeaturedProducts/>
     <About/>
     <LifestyleBanner/>
-    <Testimonials/>
+    <Testimonials/> 
     <Footer/>
       
     </>

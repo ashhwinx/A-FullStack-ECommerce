@@ -36,7 +36,7 @@ const Navbar = () => {
       initial={{ y: 0 }}
       animate={{ y: showNavbar ? 0 : -100 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="fixed top-1 left-0 right-0 z-50"
+      className=" fixed top-1 left-0 right-0 z-50"
     >
       {/* Navbar */}
       <div className="bg-black rounded-2xl mx-2 h-18 shadow-md flex items-center px-10 justify-between">
@@ -78,7 +78,6 @@ const Navbar = () => {
               }}
             >
               <MdPeopleAlt />
-              
             </li>
 
             {profile && (

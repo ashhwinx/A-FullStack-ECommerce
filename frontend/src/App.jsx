@@ -1,8 +1,9 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from 'react'
 import Navbar from "./components/Navbar"
 import HeroPage from "./pages/HeroPage"
 import CollectionPage from './pages/CollectionPage'
-import ProductDetailPage  from './pages/ProductDEtailPage'
+import ProductDetailPage from "./pages/ProductDetailPage";
 import StorePage from './pages/StorePage'
 import StoreDashboard from "./pages/StoreDashboard"
 import AdminLayout from './pages/AdminLayout'
@@ -19,16 +20,27 @@ const App = () => {
   };
   return (
     <>
-      {/* <Navbar/> */}
-      <HeroPage/>
+    
+    <Navbar/>
+    <Router>
+      <Routes>
+
+    
+
+      <Route path="/" element={<HeroPage />} />
+      <Route path="/product/:id" element={<ProductDetailPage />} />
       {/* <CollectionPage/> */}
-      <ProductDetailPage/>
+      {/* <ProductDetailPage/> */}
       {/* <StorePage/> */}
       {/* <StoreDashboard/> */}
       {/* <AdminLayout/> */}
       {/* <Signup/> */}
       {/* <Login/> */}
+
+      </Routes>
+    </Router>
       
+   
     </>
   )
 }

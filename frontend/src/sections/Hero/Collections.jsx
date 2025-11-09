@@ -50,7 +50,7 @@ const Collection = () => {
   }, []); 
   
 
-
+ 
   const handleNext = () => {
     if (startIndex + productsPerPage < products.length) {
       setStartIndex(startIndex + productsPerPage);

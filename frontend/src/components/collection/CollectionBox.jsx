@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
+
 
 const CollectionBox = (product) => {
   const [added, setAdded] = useState(false);
+  const navigate = useNavigate();
 
   const handleAddToCart = async () => {
     setAdded(true);
@@ -17,6 +20,13 @@ const CollectionBox = (product) => {
     setTimeout(() => setAdded(false), 2000); // revert after 2 sec
   };
 
+
+  const handleProductClick=()=>{
+    navigate(`/product/${product.product._id}`,{ state: product.product });
+  }
+
+  
+
   
   
 
@@ -25,9 +35,9 @@ const CollectionBox = (product) => {
       <div className="group relative w-72 bg-white border border-black rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.1)] transition-all duration-500 hover:shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:-translate-y-2">
 
         {/* Image Section */}
-        <div className="w-full h-72   p-2 rounded-2xl overflow-hidden">
+        <div className="w-full h-72    p-2 rounded-2xl overflow-hidden" onClick={handleProductClick}>
           <img
-            src={product.product.image}
+            src={product.product.image[0]}
             alt="Jacket"
             className="object-cover w-full h-full transition-transform duration-500 rounded-xl group-hover:scale-105"
           />

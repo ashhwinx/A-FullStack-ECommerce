@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <>
-      <div className=" min-h-screen mt-20">
+      <div className=" min-h-screen ">
         <div className="h-[calc(100vh-100px)] mx-10 my-2 flex px-10">
           <div className="flex">
             {/* LEFT SIDE */}

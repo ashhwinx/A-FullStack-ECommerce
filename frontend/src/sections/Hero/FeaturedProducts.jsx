@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 import { FaCartShopping } from "react-icons/fa6";
 import ScrollFloat from "../../components/other/ScrollFloat";
 import axios from "axios";
-import ProductDetailPage from "../../pages/ProductDEtailPage";
+import { useNavigate } from "react-router-dom";
+
 
 const FeaturedProducts = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const navigate = useNavigate();
   const [added, setAdded] = useState(null);
-  const [clicked, setClicked] = useState(false);
-  const [dataSend, setDataSend] = useState(null);
+  
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const FeaturedProducts = () => {
       try {
         const res = await axios.post(
           `${import.meta.env.VITE_URL}/productdata/products`,
-          {}, // no body needed
+          {token}, // no body needed
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -51,12 +52,11 @@ const FeaturedProducts = () => {
   };
 
 const handleProductCard = (product) => {
-    setClicked(true);
-    setDataSend(product);
+  navigate(`/product/${product._id}`,{ state: product });
   };
 
-  // ✅ Return JSX
-  return clicked ? (
+  
+  return  (
     <section className="py-20 px-6 relative">
     {/* Heading */}
     <div className="text-center mb-16">
@@ -151,9 +151,7 @@ const handleProductCard = (product) => {
     <div className="absolute inset-0 -z-10 opacity-10 bg-[radial-gradient(circle_at_center,black,transparent_60%)]"></div>
   </section>
     
-  ) : (
-    <ProductDetailPage product={dataSend} onBack={() => setClicked(false)} />
-  );
+  ) 
 };
 
 export default FeaturedProducts;
