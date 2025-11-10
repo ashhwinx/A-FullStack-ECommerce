@@ -11,8 +11,9 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import StoreSignup from './pages/StoreSignup'
 import StoreLogin from './pages/StoreLogin'
-
-
+import  Profile from "./components/NavbarBox/Profile"
+import Cart from "./components/NavbarBox/Cart";
+import Orders from "./components/NavbarBox/Orders";
 
 const App = () => {
   const handleAnimationComplete = () => {
@@ -21,21 +22,24 @@ const App = () => {
   return (
     <>
     
-    <Navbar/>
+    
     <Router>
+    <Navbar/>
       <Routes>
 
     
 
-      <Route path="/" element={<HeroPage />} />
+      <Route path="home/" element={<HeroPage />} />
       <Route path="/product/:id" element={<ProductDetailPage />} />
-      {/* <CollectionPage/> */}
-      {/* <ProductDetailPage/> */}
+      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/cart" element={<Cart/>}/>
+      <Route path="/orders" element={<Orders/>}/>
       {/* <StorePage/> */}
       {/* <StoreDashboard/> */}
       {/* <AdminLayout/> */}
-      {/* <Signup/> */}
-      {/* <Login/> */}
+      <Route path="/" element={<Login/>}  />
+      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/collection" element={<CollectionPage/>}/>
 
       </Routes>
     </Router>

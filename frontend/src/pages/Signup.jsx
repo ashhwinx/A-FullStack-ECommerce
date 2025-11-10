@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const Signup = () => {
  
@@ -14,6 +15,8 @@ const Signup = () => {
     address: "",
   })
 
+  const navigate = useNavigate()
+
  
   
 
@@ -25,6 +28,7 @@ const Signup = () => {
     e.preventDefault()
     
     const res = await axios.post(`${import.meta.env.VITE_URL}/user/register`,form)
+    navigate("/login")
     
     alert("Signup successful ✅")
   };

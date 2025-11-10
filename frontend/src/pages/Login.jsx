@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiMail, FiLock } from "react-icons/fi";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,6 +18,8 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     const res = await axios.post(`${import.meta.env.VITE_URL}/user/login`,form)
     localStorage.setItem("token", res.data.token)
+    navigate("/home")
+
 
     alert("Login successful ✅");
   };

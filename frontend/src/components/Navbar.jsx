@@ -1,57 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import { MdPeopleAlt } from "react-icons/md";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaTruck, FaSignOutAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 
+import { useNavigate } from "react-router-dom";
+
 const Navbar = () => {
   const [focused, setFocused] = useState(false);
   const [profile, setProfile] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  // Detect scroll direction
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // scrolling down
-        setShowNavbar(false);
-      } else {
-        // scrolling up
-        setShowNavbar(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  const navigate  = useNavigate()
 
   return (
-    <motion.div
-      initial={{ y: 0 }}
-      animate={{ y: showNavbar ? 0 : -100 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className=" fixed top-1 left-0 right-0 z-50"
-    >
+    <div className="fixed top-1 left-0 right-0 z-50">
       {/* Navbar */}
       <div className="bg-black rounded-2xl mx-2 h-18 shadow-md flex items-center px-10 justify-between">
         {/* Left Section */}
         <ul className="flex gap-10 ml-8 text-white font-zalando text-xl items-center">
-          <li className="cursor-pointer hover:opacity-50">Home</li>
-          <li className="cursor-pointer hover:opacity-50">Collection</li>
-          <li className="cursor-pointer hover:opacity-50">Category</li>
+          <li className="cursor-pointer hover:opacity-50" onClick={()=>navigate("/home")}>Home</li>
+          <li className="cursor-pointer hover:opacity-50" onClick={()=>navigate("/collection")}>Collection</li>
+          <li className="cursor-pointer hover:opacity-50" onClick={()=>navigate("/collection")}>Category</li>
         </ul>
 
         {/* Center Logo */}
         <p className="font-bbh-sans-bartle text-3xl text-white">ZYLO</p>
 
         {/* Right Section */}
-        <ul className="flex gap-10 text-white font-zalando text-xl items-center relative">
+        <ul className="flex gap-10 text-white font-zalando text-xl items-center">
           {/* Search Box */}
           <div className="relative flex items-center">
             <input
@@ -63,97 +39,81 @@ const Navbar = () => {
               onBlur={() => setFocused(false)}
             />
 
-            {focused && (
-              <IoSearchSharp className="absolute right-4 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" />
-            )}
+            <IoSearchSharp className="absolute right-4 top-1/2 transform -translate-y-1/2 text-2xl text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" />
           </div>
 
           {/* Profile Dropdown Trigger */}
           <div className="relative">
             <li
               className="cursor-pointer mr-8 hover:opacity-50 text-2xl"
-              onClick={(e) => {
-                e.stopPropagation();
-                setProfile(!profile);
-              }}
+              onClick={() => setProfile(!profile)}
             >
               <MdPeopleAlt />
             </li>
 
             {profile && (
-              <>
-                {/* Invisible backdrop to close dropdown */}
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setProfile(false)}
-                ></div>
-
-                {/* Dropdown */}
-                <div className="absolute right-0 mt-4 z-20">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute right-0 top-full mt-2 z-20"
+              >
+                <div className="h-auto w-56 bg-black rounded-2xl flex flex-col gap-2 p-3 shadow-[0_0_2px_black]">
+                  {/* Profile */}
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="h-auto w-56 mt-5 bg-black rounded-2xl flex flex-col gap-2 p-3 shadow-[0_0_2px_black]"
-                    onClick={(e) => e.stopPropagation()}
+                    whileHover={{
+                      scale: 1.05,
+                      backgroundColor: "rgb(31,31,31)",
+                    }}
+                    className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
                   >
-                    {/* Profile */}
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgb(31,31,31)",
-                      }}
-                      className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
-                    >
-                      <MdPeopleAlt className="mr-4 text-gray-300" />
-                      <p className="font-zalando text-md">Profile</p>
-                    </motion.div>
+                    <MdPeopleAlt className="mr-4 text-gray-300" />
+                    <p className="font-zalando text-md">Profile</p>
+                  </motion.div>
 
-                    {/* Cart */}
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgb(31,31,31)",
-                      }}
-                      className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
-                    >
-                      <FaCartShopping className="mr-4 text-gray-300" />
-                      <p className="font-zalando text-md">Cart</p>
-                    </motion.div>
+                  {/* Cart */}
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                      backgroundColor: "rgb(31,31,31)",
+                    }}
+                    className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
+                  >
+                    <FaCartShopping className="mr-4 text-gray-300" />
+                    <p className="font-zalando text-md">Cart</p>
+                  </motion.div>
 
-                    {/* Orders */}
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgb(31,31,31)",
-                      }}
-                      className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
-                    >
-                      <FaTruck className="mr-4 text-gray-300" />
-                      <p className="font-zalando text-md">Orders</p>
-                    </motion.div>
+                  {/* Orders */}
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                      backgroundColor: "rgb(31,31,31)",
+                    }}
+                    className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
+                  >
+                    <FaTruck className="mr-4 text-gray-300" />
+                    <p className="font-zalando text-md">Orders</p>
+                  </motion.div>
 
-                    {/* Logout */}
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgb(220,38,38)",
-                      }}
-                      className="bg-red-500 h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
-                    >
-                      <FaSignOutAlt className="mr-4 text-white" />
-                      <p className="font-zalando text-md font-semibold">
-                        Log Out
-                      </p>
-                    </motion.div>
+                  {/* Logout */}
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                      backgroundColor: "rgb(220,38,38)",
+                    }}
+                    className="bg-red-500 h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
+                  >
+                    <FaSignOutAlt className="mr-4 text-white" />
+                    <p className="font-zalando text-md font-semibold">
+                      Log Out
+                    </p>
                   </motion.div>
                 </div>
-              </>
+              </motion.div>
             )}
           </div>
         </ul>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
