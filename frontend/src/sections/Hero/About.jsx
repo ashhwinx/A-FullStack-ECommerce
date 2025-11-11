@@ -23,7 +23,7 @@ const AboutSection = () => {
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
      
-        {/* Left Side - Image */}
+        
         <motion.div
           className="rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.1)]"
           initial={{ opacity: 0, x: -50 }}
