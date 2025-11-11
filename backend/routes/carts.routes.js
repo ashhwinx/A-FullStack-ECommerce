@@ -7,5 +7,7 @@ Router.post("/add",authMiddleware.authMiddelware,cartController.addToCart  )
 
 Router.delete("/delete",authMiddleware.authMiddelware,cartController.deleteToCart)
 
+Router.get("/getcartitem", authMiddleware.authMiddelware,cartController.getCartItem)
+
 
 module.exports = Router

@@ -30,31 +30,33 @@ const OrdersPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-black px-6 py-10">
-      <h2 className="text-3xl font-bold text-center mb-10 border-b pb-3">
+    <div className="min-h-screen  text-black px-6 py-24">
+      {/* Top heading - moved lower for navbar space */}
+      <h2 className="text-3xl font-bold text-center mb-12 border-b pb-3 w-fit mx-auto">
         Your Orders
       </h2>
 
-      <div className="max-w-5xl mx-auto flex flex-col gap-6">
+      {/* Order cards */}
+      <div className="max-w-3xl mx-auto flex flex-col gap-6">
         {orders.map((order, index) => (
           <motion.div
             key={order.id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="flex items-center justify-between bg-gray-50 border border-gray-300 rounded-2xl p-5 hover:shadow-lg transition-all duration-300"
+            className="flex items-center justify-between bg-gray-50 border border-gray-300 rounded-2xl p-5 hover:shadow-md transition-all duration-300"
           >
             {/* Left Side - Product Info */}
             <div className="flex items-center gap-5">
               <img
                 src={order.image}
                 alt={order.name}
-                className="w-28 h-28 object-cover rounded-xl border border-gray-300"
+                className="w-24 h-24 object-cover rounded-xl border border-gray-300"
               />
               <div>
                 <h3 className="text-lg font-semibold">{order.name}</h3>
-                <p className="text-gray-600 text-sm mt-1">Order ID: {order.id}</p>
-                <p className="text-md font-medium mt-2">₹{order.price}</p>
+         
+                <p className="text-md font-medium mt-1">₹{order.price}</p>
               </div>
             </div>
 
@@ -71,9 +73,7 @@ const OrdersPage = () => {
               >
                 {order.status}
               </span>
-              <button className="block mt-4 text-sm underline text-gray-500 hover:text-black transition">
-                View Details
-              </button>
+             
             </div>
           </motion.div>
         ))}

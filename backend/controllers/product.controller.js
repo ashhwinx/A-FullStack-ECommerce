@@ -66,3 +66,20 @@ module.exports.productGet = async (req,res)=>{
         res.status(500).json({error:error.message})
     }
 }
+
+module.exports.cartProductGet = async (req,res)=>{
+  try {
+    const {ids} = req.body
+  
+    const products = await productModel.find({
+      _id: { $in: ids},
+    })
+    
+    
+    
+
+    res.status(200).json({products})
+  } catch (error) {
+    return res.status(400).json({error:error.message})
+  }
+}

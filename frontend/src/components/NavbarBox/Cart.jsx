@@ -1,37 +1,64 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiTrash2 } from "react-icons/fi";
+import axios from "axios"
+
+
+
+
+
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Minimalist Black Hoodie",
-      price: 2499,
-      quantity: 1,
-      image: "https://images.unsplash.com/photo-1618354691417-25d6bd0b3fa0?w=800",
-    },
-    {
-      id: 2,
-      name: "White Sneakers",
-      price: 3999,
-      quantity: 1,
-      image: "https://images.unsplash.com/photo-1606813902911-c6f1b9e4d9b3?w=800",
-    },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
+  const token = localStorage.getItem("token")
+  const [total, setTotal] = useState(null)
+
+  useEffect(() => {
+
+    const fetchCartItem = async (req,res)=>{
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_URL }/cart/getcartitem`,{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+
+            const cartProducts = res.data.cart[0].products
+            const ids = cartProducts.map((p) => p.productId)
+            
+
+
+            const product = await axios.post(`${import.meta.env.VITE_URL}/productdata/cartProduct`,{ids},{
+              headers:{
+                Authorization:`Bearer ${token}`
+              }
+            })
+            const apiProduct = product.data.products
+            setCartItems(apiProduct)
+            
+            console.log(apiProduct)
+           
+        } catch (error) {
+            return res.status(400).json({error:error.message})
+        }
+    }
+    fetchCartItem()
+    
+
+  }, [])
+  
+
+
 
   const handleDelete = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+    
   };
 
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  
 
   return (
-    <div className="min-h-screen bg-white text-black px-30 py-10 flex flex-col md:flex-row">
+    <div className=" text-black px-30 py-10 flex flex-col md:flex-row">
       {/* LEFT SIDE - CART ITEMS */}
       <div className="flex-1 flex flex-col items-center">
         <h2 className="text-2xl font-semibold mb-6 w-full max-w-2xl">Your Cart</h2>
@@ -51,12 +78,12 @@ const CartPage = () => {
                 {/* PRODUCT DETAILS */}
                 <div className="flex items-center gap-4">
                   <img
-                    src={item.img || "https://source.unsplash.com/100x100/?product"}
-                    alt={item.name}
+                    src={item.image || "https://source.unsplash.com/100x100/?product"}
+                    alt={item.title}
                     className="w-20 h-20 object-cover rounded-xl border border-gray-200"
                   />
                   <div>
-                    <h3 className="font-medium text-black">{item.name}</h3>
+                    <h3 className="font-medium text-black">{item.title}</h3>
                     <p className="text-gray-600 text-sm">₹{item.price}</p>
                   </div>
                 </div>
@@ -64,7 +91,7 @@ const CartPage = () => {
                 {/* DELETE BUTTON */}
                 <motion.button
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => onDelete?.(item.id)}
+                  onClick={() => handleDelete(item._id)}
                   className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                 >
                   <FiTrash2 size={18} />
@@ -87,7 +114,7 @@ const CartPage = () => {
         <div className="space-y-2 text-gray-700 text-sm">
           <div className="flex justify-between">
             <span>Subtotal</span>
-            <span>₹{total.toLocaleString()}</span>
+            <span>₹{total}</span>
           </div>
           <div className="flex justify-between">
             <span>Shipping</span>

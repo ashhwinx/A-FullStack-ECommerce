@@ -78,3 +78,19 @@ module.exports.deleteToCart = async (req,res)=>{
     res.status(500).json({ error: error.message });
     }
 }
+
+module.exports.getCartItem = async (req,res)=>{
+  try {
+    const userid = req.user._id 
+
+    const cart = await cartModel.find({userid})
+
+    res.status(200).json({cart})
+
+
+
+    
+  } catch (error) {
+    return res.status(500).json({error:error.message})
+  }
+}

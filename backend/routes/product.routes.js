@@ -7,4 +7,6 @@ Router.post("/add",sellerMiddleware.sellerMiddleware,productController.productMa
 
 Router.post("/products", sellerMiddleware.authMiddelware,productController.productGet)
 
+Router.post("/cartProduct", sellerMiddleware.authMiddelware,productController.cartProductGet)
+
 module.exports = Router

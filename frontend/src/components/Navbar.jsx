@@ -12,6 +12,10 @@ const Navbar = () => {
   const [profile, setProfile] = useState(false);
   const navigate  = useNavigate()
 
+  const handleCloseProfile = ()=>{
+    setProfile(!profile)
+  }
+
   return (
     <div className="fixed top-1 left-0 right-0 z-50">
       {/* Navbar */}
@@ -60,6 +64,7 @@ const Navbar = () => {
                 <div className="h-auto w-56 bg-black rounded-2xl flex flex-col gap-2 p-3 shadow-[0_0_2px_black]">
                   {/* Profile */}
                   <motion.div
+                  onClick={handleCloseProfile}
                     whileHover={{
                       scale: 1.05,
                       backgroundColor: "rgb(31,31,31)",
@@ -67,11 +72,12 @@ const Navbar = () => {
                     className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
                   >
                     <MdPeopleAlt className="mr-4 text-gray-300" />
-                    <p className="font-zalando text-md">Profile</p>
+                    <p className="font-zalando text-md" onClick={()=>navigate("/profile")}>Profile</p>
                   </motion.div>
 
                   {/* Cart */}
                   <motion.div
+                  onClick={handleCloseProfile}
                     whileHover={{
                       scale: 1.05,
                       backgroundColor: "rgb(31,31,31)",
@@ -79,11 +85,12 @@ const Navbar = () => {
                     className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
                   >
                     <FaCartShopping className="mr-4 text-gray-300" />
-                    <p className="font-zalando text-md">Cart</p>
+                    <p className="font-zalando text-md" onClick={()=>navigate("/cart")}>Cart</p>
                   </motion.div>
 
                   {/* Orders */}
                   <motion.div
+                  onClick={handleCloseProfile}
                     whileHover={{
                       scale: 1.05,
                       backgroundColor: "rgb(31,31,31)",
@@ -91,11 +98,12 @@ const Navbar = () => {
                     className="h-12 w-full rounded-xl text-white flex items-center text-xl px-4 cursor-pointer transition-all duration-200"
                   >
                     <FaTruck className="mr-4 text-gray-300" />
-                    <p className="font-zalando text-md">Orders</p>
+                    <p className="font-zalando text-md" onClick={()=>navigate("/orders")}>Orders</p>
                   </motion.div>
 
                   {/* Logout */}
                   <motion.div
+                  onClick={handleCloseProfile}
                     whileHover={{
                       scale: 1.05,
                       backgroundColor: "rgb(220,38,38)",
