@@ -44,8 +44,12 @@ module.exports.addToCart = async (req, res) => {
 //need token in head and productId
 module.exports.deleteToCart = async (req,res)=>{
     try {
+      
         const userid = req.user._id
+        console.log(req.body)
         const {productId}= req.body
+        
+        
         
         
         const cart = await cartModel.findOne({userid})

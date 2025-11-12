@@ -13,6 +13,9 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const token = localStorage.getItem("token")
   const [total, setTotal] = useState(null)
+  const [charges, setCharges] = useState(0)
+
+  
 
   useEffect(() => {
 
@@ -25,6 +28,7 @@ const CartPage = () => {
             })
 
             const cartProducts = res.data.cart[0].products
+            
             const ids = cartProducts.map((p) => p.productId)
             
 
@@ -36,8 +40,18 @@ const CartPage = () => {
             })
             const apiProduct = product.data.products
             setCartItems(apiProduct)
+
+            const qty = cartProducts.map((p)=>p.quantity)
+            const money = apiProduct.map((p)=>p.price)
+
             
-            console.log(apiProduct)
+           
+
+            setTotal(money.reduce((c,a,i)=>c+ a *qty[i],0))
+             
+            
+              
+            
            
         } catch (error) {
             return res.status(400).json({error:error.message})
@@ -51,9 +65,24 @@ const CartPage = () => {
 
 
 
-  const handleDelete = (id) => {
-    
+  const handleDelete = async (productId) => {
+    try {
+      console.log(productId);
+  
+      const res = await axios.delete(`${import.meta.env.VITE_URL}/cart/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: { productId }, 
+      });
+      window.location.reload();
+
+
+    } catch (error) {
+      console.error(error.message);
+    }
   };
+  
 
   
 
@@ -118,7 +147,7 @@ const CartPage = () => {
           </div>
           <div className="flex justify-between">
             <span>Shipping</span>
-            <span>₹100</span>
+            <span>₹{charges}</span>
           </div>
           <div className="flex justify-between font-semibold text-black border-t border-gray-200 pt-2">
             <span>Total</span>
@@ -132,8 +161,7 @@ const CartPage = () => {
             Payment Method
           </label>
           <select className="w-full px-3 py-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-black">
-            <option>Credit / Debit Card</option>
-            <option>UPI</option>
+            
             <option>Cash on Delivery</option>
           </select>
         </div>
