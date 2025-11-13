@@ -14,6 +14,7 @@ const CartPage = () => {
   const token = localStorage.getItem("token")
   const [total, setTotal] = useState(null)
   const [charges, setCharges] = useState(0)
+  const [quantity, setQuantity] = useState([])
 
   
 
@@ -43,14 +44,14 @@ const CartPage = () => {
 
             const qty = cartProducts.map((p)=>p.quantity)
             const money = apiProduct.map((p)=>p.price)
+            setQuantity(qty)
+
 
             
            
 
             setTotal(money.reduce((c,a,i)=>c+ a *qty[i],0))
-             
-            
-              
+
             
            
         } catch (error) {
@@ -62,7 +63,7 @@ const CartPage = () => {
 
   }, [])
   
-
+  
 
 
   const handleDelete = async (productId) => {
@@ -82,6 +83,23 @@ const CartPage = () => {
       console.error(error.message);
     }
   };
+
+
+  const handleOrder = async ()=>{
+      try {
+
+        const res = await axios.get(`${import.meta.env.VITE_URL}/order/buy`,{
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        })
+
+        window.location.reload();
+        
+      } catch (error) {
+        return res.status(400).json({error:error.message})
+      }
+  }
   
 
   
@@ -113,8 +131,14 @@ const CartPage = () => {
                   />
                   <div>
                     <h3 className="font-medium text-black">{item.title}</h3>
+                    <div className="flex">
                     <p className="text-gray-600 text-sm">₹{item.price}</p>
+                    <div className="text-black ml-4 text-sm flex">QTY<p className="text-black ml-1 text-sm">{quantity[i]}</p></div>
+                    </div>
+                    
+                    
                   </div>
+                  
                 </div>
 
                 {/* DELETE BUTTON */}
@@ -170,6 +194,7 @@ const CartPage = () => {
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
+          onClick={handleOrder}
           className="w-full mt-6 py-3 bg-black text-white rounded-xl font-medium hover:bg-gray-900 transition-all"
         >
           Place Order
