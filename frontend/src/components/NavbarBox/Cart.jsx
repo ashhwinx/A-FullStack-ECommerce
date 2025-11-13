@@ -106,7 +106,7 @@ const CartPage = () => {
 
   return (
     <div className=" text-black px-30 py-10 flex flex-col md:flex-row">
-      {/* LEFT SIDE - CART ITEMS */}
+      
       <div className="flex-1 flex flex-col items-center">
         <h2 className="text-2xl font-semibold mb-6 w-full max-w-2xl">Your Cart</h2>
 
@@ -122,7 +122,7 @@ const CartPage = () => {
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 className="flex items-center justify-between bg-white border border-gray-200 rounded-xl shadow-sm px-5 py-4 hover:shadow-md transition-all duration-300"
               >
-                {/* PRODUCT DETAILS */}
+              
                 <div className="flex items-center gap-4">
                   <img
                     src={item.image || "https://source.unsplash.com/100x100/?product"}
@@ -155,7 +155,7 @@ const CartPage = () => {
         </div>
       </div>
 
-      {/* RIGHT SIDE - ORDER SUMMARY */}
+   
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
